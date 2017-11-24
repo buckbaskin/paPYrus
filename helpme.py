@@ -1,4 +1,4 @@
-from pylatex import Document, Section, Subsection, Command, UnsafeCommand
+from pylatex import Document, Section, Subsection, Subsubsection, Command, UnsafeCommand
 from pylatex.utils import italic, NoEscape
 
 default_package_list = [
@@ -19,7 +19,7 @@ default_package_list = [
 ]
 
 def stuff(doc, content):
-    doc.append(content)
+    doc.append(NoEscape(content))
 
 def myusual(doc):
     stuff(doc.preamble, NoEscape(r'\usepackage[english]{babel}'))
@@ -75,3 +75,11 @@ def myusual(doc):
 def build(doc, filename):
     doc.generate_pdf(filename, clean_tex=False)
 
+def section(doc, title):
+    return doc.create(Section(NoEscape(title)))
+
+def subsection(doc, title):
+    return doc.create(Subsection(NoEscape(title)))
+
+def subsubsection(doc, title):
+    return doc.create(Subsubsection(NoEscape(title)))
