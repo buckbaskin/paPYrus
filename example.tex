@@ -1,0 +1,141 @@
+\documentclass[12pt, letterpaper, oneside, notitlepage, onecolumn]{article}
+\author{Buck Baskin}
+\title{Vector-Rotation to Euler Angles}
+\pagestyle{plain}
+
+\usepackage{parskip}
+
+\usepackage{textcomp}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{soul}
+\usepackage[margin=0.69in]{geometry}
+
+% math
+\usepackage{amsmath, amssymb, amsthm, gensymb}
+
+\usepackage{graphicx}
+\graphicspath{ {images/tc1/} }
+% \includegraphics[height=6.75in,angle=270]{HW25}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Matlab,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand{\subsubsubsection}{\paragraph}
+\newcommand{\bbs}[1]{\section{#1}}
+\newcommand{\bbss}[1]{\subsection{#1}}
+\newcommand{\bbsss}[1]{\subsubsection{#1}}
+\newcommand{\bbssss}[1]{\subsubsubsection{#1}}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\begin{document}
+\maketitle
+
+Some calculations were verified using Python.
+
+\section{Answer}
+
+$R_{BA} = R_{y}(\alpha) R_{x}(\beta) R_{y}(\gamma)$
+
+$R_{y} (\alpha) = 
+\left[\begin{matrix}\cos{\left (\alpha \right )} & 0 & \sin{\left (\alpha \right )}\\0 & 1 & 0\\- \sin{\left (\alpha \right )} & 0 & \cos{\left (\alpha \right )}\end{matrix}\right]$
+
+$R_{x} (\beta) = 
+\left[\begin{matrix}1 & 0 & 0\\0 & \cos{\left (\beta \right )} & - \sin{\left (\beta \right )}\\0 & \sin{\left (\beta \right )} & \cos{\left (\beta \right )}\end{matrix}\right]$
+
+$R_{y} (\gamma) = 
+\left[\begin{matrix}\cos{\left (\gamma \right )} & 0 & \sin{\left (\gamma \right )}\\0 & 1 & 0\\- \sin{\left (\gamma \right )} & 0 & \cos{\left (\gamma \right )}\end{matrix}\right]$
+
+$R_{BA} = 
+\left[\begin{matrix}\cos{\left (\alpha \right )} & 0 & \sin{\left (\alpha \right )}\\0 & 1 & 0\\- \sin{\left (\alpha \right )} & 0 & \cos{\left (\alpha \right )}\end{matrix}\right]
+\left[\begin{matrix}1 & 0 & 0\\0 & \cos{\left (\beta \right )} & - \sin{\left (\beta \right )}\\0 & \sin{\left (\beta \right )} & \cos{\left (\beta \right )}\end{matrix}\right]
+\left[\begin{matrix}\cos{\left (\gamma \right )} & 0 & \sin{\left (\gamma \right )}\\0 & 1 & 0\\- \sin{\left (\gamma \right )} & 0 & \cos{\left (\gamma \right )}\end{matrix}\right]$
+
+$R_{BA} = 
+\left[\begin{matrix}- \sin{\left (\alpha \right )} \sin{\left (\gamma \right )} \cos{\left (\beta \right )} + \cos{\left (\alpha \right )} \cos{\left (\gamma \right )} & \sin{\left (\alpha \right )} \sin{\left (\beta \right )} & \sin{\left (\alpha \right )} \cos{\left (\beta \right )} \cos{\left (\gamma \right )} + \sin{\left (\gamma \right )} \cos{\left (\alpha \right )}\\\sin{\left (\beta \right )} \sin{\left (\gamma \right )} & \cos{\left (\beta \right )} & - \sin{\left (\beta \right )} \cos{\left (\gamma \right )}\\- \sin{\left (\alpha \right )} \cos{\left (\gamma \right )} - \sin{\left (\gamma \right )} \cos{\left (\alpha \right )} \cos{\left (\beta \right )} & \sin{\left (\beta \right )} \cos{\left (\alpha \right )} & - \sin{\left (\alpha \right )} \sin{\left (\gamma \right )} + \cos{\left (\alpha \right )} \cos{\left (\beta \right )} \cos{\left (\gamma \right )}\end{matrix}\right]$
+
+The equivalent rotation to $R(\begin{bmatrix}1/\sqrt{3} \\ 1/\sqrt{3} \\ 1/\sqrt{3}\end{bmatrix}, -90 \degree)$ using Rodriguez Formula:
+
+$e^{\hat{\omega} \theta} = I + \hat{\omega} sin(\theta) + (1 - cos(\theta) )\hat{\omega}^{2}$
+
+For $\theta = -90$:
+
+$e^{\hat{\omega} \theta} = I - \hat{\omega} + \hat{\omega}^{2}$
+
+% ---- %
+$\hat{\omega} = 
+\left[\begin{matrix}0 & - \frac{\sqrt{3}}{3} & \frac{\sqrt{3}}{3}\\\frac{\sqrt{3}}{3} & 0 & - \frac{\sqrt{3}}{3}\\- \frac{\sqrt{3}}{3} & \frac{\sqrt{3}}{3} & 0\end{matrix}\right]$
+
+$\hat{\omega}^{2} = 
+\left[\begin{matrix}- \frac{2}{3} & \frac{1}{3} & \frac{1}{3}\\\frac{1}{3} & - \frac{2}{3} & \frac{1}{3}\\\frac{1}{3} & \frac{1}{3} & - \frac{2}{3}\end{matrix}\right]$
+
+$e^{\hat{\omega} \theta} = I - 
+\left[\begin{matrix}0 & - \frac{\sqrt{3}}{3} & \frac{\sqrt{3}}{3}\\\frac{\sqrt{3}}{3} & 0 & - \frac{\sqrt{3}}{3}\\- \frac{\sqrt{3}}{3} & \frac{\sqrt{3}}{3} & 0\end{matrix}\right]
+ + 
+\left[\begin{matrix}- \frac{2}{3} & \frac{1}{3} & \frac{1}{3}\\\frac{1}{3} & - \frac{2}{3} & \frac{1}{3}\\\frac{1}{3} & \frac{1}{3} & - \frac{2}{3}\end{matrix}\right]$
+
+$e^{\hat{\omega} \theta} = \left[\begin{matrix}\frac{1}{3} & \frac{1}{3} + \frac{\sqrt{3}}{3} & - \frac{\sqrt{3}}{3} + \frac{1}{3}\\- \frac{\sqrt{3}}{3} + \frac{1}{3} & \frac{1}{3} & \frac{1}{3} + \frac{\sqrt{3}}{3}\\\frac{1}{3} + \frac{\sqrt{3}}{3} & - \frac{\sqrt{3}}{3} + \frac{1}{3} & \frac{1}{3}\end{matrix}\right] = R_{BA} =$
+$\begin{bmatrix}
+r_{11} & r_{12} & r_{13} \\
+r_{21} & r_{22} & r_{23} \\
+r_{31} & r_{32} & r_{33} \\
+\end{bmatrix}$
+
+$\left[\begin{smallmatrix}- \sin{\left (\alpha \right )} \sin{\left (\gamma \right )} \cos{\left (\beta \right )} + \cos{\left (\alpha \right )} \cos{\left (\gamma \right )} & \sin{\left (\alpha \right )} \sin{\left (\beta \right )} & \sin{\left (\alpha \right )} \cos{\left (\beta \right )} \cos{\left (\gamma \right )} + \sin{\left (\gamma \right )} \cos{\left (\alpha \right )}\\\sin{\left (\beta \right )} \sin{\left (\gamma \right )} & \cos{\left (\beta \right )} & - \sin{\left (\beta \right )} \cos{\left (\gamma \right )}\\- \sin{\left (\alpha \right )} \cos{\left (\gamma \right )} - \sin{\left (\gamma \right )} \cos{\left (\alpha \right )} \cos{\left (\beta \right )} & \sin{\left (\beta \right )} \cos{\left (\alpha \right )} & - \sin{\left (\alpha \right )} \sin{\left (\gamma \right )} + \cos{\left (\alpha \right )} \cos{\left (\beta \right )} \cos{\left (\gamma \right )}\end{smallmatrix}\right] = $
+$\begin{bmatrix}
+r_{11} & r_{12} & r_{13} \\
+r_{21} & r_{22} & r_{23} \\
+r_{31} & r_{32} & r_{33} \\
+\end{bmatrix}$
+
+\subsection{Solving for $\alpha, \beta, \gamma$}
+
+\subsubsection{$\beta$}
+
+Using the atan method, one can solve for $\beta$ using the middle column of the matrix. The middle value, $r_{22} = cos(\beta)$. Using $r_{12}^{2} + r_{32}^{2} = sin^{2}(\beta)(sin^{2}(\gamma) + cos^{2}(\gamma)) = sin^{2}(\beta)$, $sin(\beta) = \sqrt{r_{12}^{2} + r_{32}^{2}}$. Therefore, $\beta = atan2(\sqrt{r_{12}^{2} + r_{32}^{2}}, r_{22})$.
+
+\subsubsection{$\gamma$}
+
+Looking at two elements in the middle row of the matrix, one can solve for $\gamma$ using the atan method. $r_{21} = sin(\beta) sin(\gamma)$, so $sin(\gamma) = r_{21} / sin(\beta)$. $r_{23} = -sin(\beta) cos(\gamma)$, so $cos(\gamma) = -r_{23} / sin(\beta)$. Therefore, $\gamma = atan2(r_{21} / sin(\beta), -r_{23} / sin(\beta))$.
+
+\subsubsection{$\alpha$}
+
+$r_{12} = sin(\alpha) sin(\beta)$, $sin(\alpha) = r_{12} / sin(\beta)$
+
+$r_{32} = cos(\alpha) sin(\beta)$, $cos(\alpha) = r_{32} / sin(\beta)$
+
+$\alpha = atan2(r_{12} / sin(\beta), r_{32} / sin(\beta))$
+
+\subsection{Conclusion}
+
+Substituting the correct values from $R_{BA}$ calculated by Rodriguez Formula into the spaces allocated by $r_{ij}$ that were solved into an $atan2$ formula using $R_{BA}$ calculated by the rotation matrices gives the solution for the equivalent rotations in radians (rounded to 3 decimal places).
+
+$\alpha = 1.833, \beta = 1.231, \gamma = -2.880$
+
+\end{document}
