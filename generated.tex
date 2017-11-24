@@ -1,0 +1,57 @@
+\documentclass{article}%
+\usepackage[T1]{fontenc}%
+\usepackage[utf8]{inputenc}%
+\usepackage{lmodern}%
+\usepackage{textcomp}%
+\usepackage{lastpage}%
+%
+\title{Vector{-}Rotation to Euler Angles}%
+\author{Buck Baskin}%
+\date{\today}%
+\usepackage[english]{babel}%
+\usepackage[margin=0.69in]{geometry}%
+\usepackage{parskip}%
+\usepackage{textcomp}%
+\usepackage{listings}%
+\usepackage{color}%
+\usepackage{verbatim}%
+\usepackage{soul}%
+\usepackage{amsmath}%
+\usepackage{amssymb}%
+\usepackage{amsthm}%
+\usepackage{gensymb}%
+\usepackage{graphicx}%
+\definecolor{dkgreen}{rgb}{0, 0.6, 0}%
+\definecolor{gray}{rgb}{0.5, 0.5, 0.5}%
+\definecolor{mauve}{rgb}{0.58, 0, 0.82}%
+\lstset{frame=tb,
+  language=Matlab,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}%
+\DeclareMathOperator*{\argmax}{arg\,max}%
+\DeclareMathOperator*{\argmin}{arg\,min}%
+\newcommand{\subsubsubsection}{\paragraph}%
+\newcommand{\bbs}[1]{\section{#1}}%
+\newcommand{\bbbs}[1]{\subsection{#1}}%
+\newcommand{\bbbbs}[1]{\subsubsection{#1}}%
+\newcommand{\bbbbbs}[1]{\subsubsubsection{#1}}%
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}%
+%
+\begin{document}%
+\normalsize%
+\maketitle%
+$R_{BA} = R_{y}(\alpha) R_{x}(\beta) R_{y}(\gamma)$
+%
+\end{document}
