@@ -1,9 +1,8 @@
-\documentclass{article}%
-\usepackage[T1]{fontenc}%
+\documentclass[12pt,letterpaper,oneside,notitlepage,onecolumn]{article}%
 \usepackage[utf8]{inputenc}%
-\usepackage{lmodern}%
 \usepackage{textcomp}%
 \usepackage{lastpage}%
+\usepackage[margin=0.69in]{geometry}%
 %
 \title{Vector{-}Rotation to Euler Angles}%
 \author{Buck Baskin}%
@@ -11,7 +10,6 @@
 \usepackage[english]{babel}%
 \usepackage[margin=0.69in]{geometry}%
 \usepackage{parskip}%
-\usepackage{textcomp}%
 \usepackage{listings}%
 \usepackage{color}%
 \usepackage{verbatim}%
@@ -57,15 +55,21 @@ Some calculations were verified using Python.%
 $R_{BA} = R_{y}(\alpha) R_{x}(\beta) R_{y}(\gamma)$%
 \subsection{Solving for $\alpha, \beta, \gamma$}%
 \subsubsection{$\beta$}%
+Using the atan method, one can solve for $\beta$ using the middle column of the matrix. The middle value, $r_{22} = cos(\beta)$. Using $r_{12}^{2} + r_{32}^{2} = sin^{2}(\beta)(sin^{2}(\gamma) + cos^{2}(\gamma)) = sin^{2}(\beta)$, $sin(\beta) = \sqrt{r_{12}^{2} + r_{32}^{2}}$. Therefore, $\beta = atan2(\sqrt{r_{12}^{2} + r_{32}^{2}}, r_{22})$.
 
 %
 \subsubsection{$\gamma$}%
+Looking at two elements in the middle row of the matrix, one can solve for $\gamma$ using the atan method. $r_{21} = sin(\beta) sin(\gamma)$, so $sin(\gamma) = r_{21} / sin(\beta)$. $r_{23} = -sin(\beta) cos(\gamma)$, so $cos(\gamma) = -r_{23} / sin(\beta)$. Therefore, $\gamma = atan2(r_{21} / sin(\beta), -r_{23} / sin(\beta))$.
 
 %
-\subsubsection{$\beta$}%
+\subsubsection{$\alpha$}%
+$r_{12} = sin(\alpha) sin(\beta)$, $sin(\alpha) = r_{12} / sin(\beta)$\\$r_{32} = cos(\alpha) sin(\beta)$, $cos(\alpha) = r_{32} / sin(\beta)$\\$\alpha = atan2(r_{12} / sin(\beta), r_{32} / sin(\beta))$
 
 %
 \subsection{Conclusion}%
+Substituting the correct values from $R_{BA}$ calculated by Rodriguez Formula into the spaces allocated by $r_{ij}$ that were solved into an $atan2$ formula using $R_{BA}$ calculated by the rotation matrices gives the solution for the equivalent rotations in radians (rounded to 3 decimal places).%
+\newline%
+$\alpha = 1.833, \beta = 1.231, \gamma = -2.880$
 
 %
 \end{document}

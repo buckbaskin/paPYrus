@@ -3,7 +3,6 @@ from pylatex.utils import italic, NoEscape
 
 default_package_list = [
     'parskip',
-    'textcomp',
     # \usepackage[utf8]{inputenc}
     # \usepackage[english]{babel}
     'listings',
